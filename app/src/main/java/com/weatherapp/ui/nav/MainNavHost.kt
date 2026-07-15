@@ -8,14 +8,16 @@ import androidx.navigation.compose.composable
 import com.weatherapp.ui.HomePage
 import com.weatherapp.ui.ListPage
 import com.weatherapp.ui.MapPage
+import com.weatherapp.view_model.MainViewModel
 
 @Composable
 fun MainNavHost(navController: NavHostController,
-                modifier: Modifier = Modifier
+                modifier: Modifier = Modifier,
+                viewModel: MainViewModel
 ) {
     NavHost(navController, startDestination = Route.Home) {
-        composable<Route.Home> { HomePage(modifier = modifier) }
-        composable<Route.List> { ListPage(modifier = modifier) }
-        composable<Route.Map> { MapPage(modifier = modifier) }
+        composable<Route.Home> { HomePage(modifier = modifier, viewModel = viewModel) }
+        composable<Route.List> { ListPage(modifier = modifier, viewModel = viewModel) }
+        composable<Route.Map> { MapPage(modifier = modifier, viewModel = viewModel) }
     }
 }

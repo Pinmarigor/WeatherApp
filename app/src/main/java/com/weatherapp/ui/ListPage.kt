@@ -34,12 +34,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.weatherapp.model.City
+import com.weatherapp.view_model.MainViewModel
 
 @Preview(showBackground = true)
 @Composable
-fun ListPage(modifier: Modifier = Modifier) {
-    val cityList = remember { getCities().toMutableStateList() }
+fun ListPage(
+    modifier: Modifier = Modifier,
+    viewModel: MainViewModel
+) {
     val activity = LocalActivity.current as Activity // Para os Toasts
+    val cityList = viewModel.cities
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
@@ -48,17 +52,14 @@ fun ListPage(modifier: Modifier = Modifier) {
         items(cityList, key = { it.name }) { city ->
             CityItem(city = city, onClose = {
                 /* TO DO */
-                Toast.makeText(activity, "Cidade clicada!", Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, "Cidade deletada!", Toast.LENGTH_LONG).show()
+                viewModel.remove(city)
             }, onClick = {
                 /* TO DO */
                 Toast.makeText(activity, "Cidade clicada!", Toast.LENGTH_LONG).show()
             })
         }
     }
-}
-
-private fun getCities() = List(20) { i ->
-    City(name = "Cidade $i", weather = "Carregando clima...")
 }
 
 @Composable
