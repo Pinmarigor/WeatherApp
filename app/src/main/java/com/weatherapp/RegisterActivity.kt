@@ -107,7 +107,7 @@ fun RegisterPage(modifier: Modifier = Modifier) {
                 Text("Registro")
             }
             Button(
-                onClick = { email = ""; password = "" }
+                onClick = { name = ""; email = ""; password = ""; repeatPassword = "" }
             ) {
                 Text("Limpar")
             }
