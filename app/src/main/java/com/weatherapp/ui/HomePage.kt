@@ -1,6 +1,7 @@
 package com.weatherapp.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,11 +26,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.weatherapp.R
+import com.weatherapp.ui.nav.BottomNavItem.HomeButton.icon
 import com.weatherapp.view_model.MainViewModel
 
 @Preview(showBackground = true)
 @Composable
 fun HomePage(modifier: Modifier = Modifier,viewModel: MainViewModel) {
+    val city = viewModel.cities.find { it.name == viewModel.city }
     Column {
         if (viewModel.city == null) {
             Column( modifier = modifier.fillMaxSize()
@@ -50,7 +53,13 @@ fun HomePage(modifier: Modifier = Modifier,viewModel: MainViewModel) {
                 )
                 Icon( imageVector = Icons.Filled.AccountBox,
                     contentDescription = "Localized description",
-                    modifier = modifier.size(150.dp) )
+                    modifier = modifier.size(150.dp)
+                )
+                Icon( imageVector = icon, contentDescription = "Monitorada?",
+                    modifier = Modifier.size(32.dp).clickable {
+                        viewModel.update(city = city!!.copy(isMonitored = !city.isMonitored))
+                    }
+                )
                 Column {
                     Spacer(modifier = modifier.size(12.dp))
                     Text( text = viewModel.city ?: "Selecione uma cidade...",
