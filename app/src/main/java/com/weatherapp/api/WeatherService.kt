@@ -1,6 +1,7 @@
 package com.weatherapp.api
 
 import android.util.Log
+import com.weatherapp.db.fb.APICurrentWeather
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,6 +21,12 @@ class WeatherService {
     fun getLocation(name: String, onResponse: (lat:Double?, long:Double?) -> Unit) {
         search(name) { loc -> onResponse (loc?.lat, loc?.lon) }
     }
+
+    fun getWeather(name: String, onResponse: (APICurrentWeather?) -> Unit){
+        val call: Call<APICurrentWeather?> = weatherAPI.weather(name)
+        enqueue(call) { onResponse.invoke(it) }
+    }
+
     private fun search(query: String, onResponse : (APILocation?) -> Unit) {
         val call: Call<List<APILocation>?> = weatherAPI.search(query)
         call.enqueue(object : Callback<List<APILocation>?> {
@@ -31,6 +38,18 @@ class WeatherService {
             override fun onFailure(call: Call<List<APILocation>?>,t: Throwable) {
                 Log.w("WeatherApp WARNING", "" + t.message)
                 onResponse(null)
+            }
+        })
+    }
+
+    private fun <T> enqueue(call : Call<T?>, onResponse : ((T?) -> Unit)? = null){
+        call.enqueue(object : Callback<T?> {
+            override fun onResponse(call: Call<T?>, response: Response<T?>) {
+                val obj: T? = response.body()
+                onResponse?.invoke(obj)
+            }
+            override fun onFailure(call: Call<T?>, t: Throwable) {
+                Log.w("WeatherApp WARNING", "" + t.message)
             }
         })
     }
