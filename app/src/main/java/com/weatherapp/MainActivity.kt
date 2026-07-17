@@ -48,7 +48,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             val fbDB = remember { FBDatabase() }
-            val weatherService = remember { WeatherService() }
+            val weatherService = remember { WeatherService(this) }
             val viewModel : MainViewModel = viewModel(
                 factory = MainViewModelFactory(fbDB, weatherService)
             )
@@ -58,6 +58,7 @@ class MainActivity : ComponentActivity() {
             val showButton = currentRoute.value?.destination?.hasRoute(Route.List::class) == true
             val launcher = rememberLauncherForActivityResult(contract =
                 ActivityResultContracts.RequestPermission(), onResult = {} )
+
 
             WeatherAppTheme {
                 if (showDialog) CityDialog(
