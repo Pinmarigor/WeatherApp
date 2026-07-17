@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.weatherapp.model.City
 import com.weatherapp.model.Weather
+import com.weatherapp.ui.nav.Route
 import com.weatherapp.view_model.MainViewModel
 
 @Preview(showBackground = true)
@@ -56,8 +57,8 @@ fun ListPage(
                 Toast.makeText(activity, "Cidade deletada!", Toast.LENGTH_LONG).show()
                 viewModel.remove(city)
             }, onClick = {
-                /* TO DO */
-                Toast.makeText(activity, "Cidade clicada!", Toast.LENGTH_LONG).show()
+                viewModel.city = city.name
+                viewModel.page = Route.Home
             })
         }
     }
