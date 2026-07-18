@@ -44,6 +44,8 @@ import com.weatherapp.api.WeatherService
 import com.weatherapp.db.fb.FBDatabase
 import com.weatherapp.monitor.ForecastMonitor
 import com.weatherapp.view_model.MainViewModelFactory
+import com.weatherapp.db.local.LocalDatabase
+import com.weatherapp.repo.Repository
 
 
 class MainActivity : ComponentActivity() {
@@ -55,9 +57,21 @@ class MainActivity : ComponentActivity() {
             setContent {
 
             val fbDB = remember { FBDatabase() }
+            val localDB = remember {
+                LocalDatabase(
+                    context = this,
+                    databaseName = "${Firebase.auth.currentUser!!.uid}.db"
+                )
+            }
+            val repository = remember {
+                Repository(
+                    fbDB = fbDB,
+                    localDB = localDB
+                )
+            }
             val weatherService = remember { WeatherService(this) }
             val viewModel : MainViewModel = viewModel(
-                factory = MainViewModelFactory(fbDB, weatherService, monitor)
+                factory = MainViewModelFactory(repository, weatherService, monitor)
             )
             DisposableEffect(Unit) {
                 val listener = Consumer<Intent> { intent ->
