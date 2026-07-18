@@ -51,27 +51,33 @@ fun HomePage(modifier: Modifier = Modifier,viewModel: MainViewModel) {
                     error = painterResource(id = R.drawable.loading),
                     contentDescription = "Imagem"
                 )
-                Icon( imageVector = Icons.Filled.AccountBox,
-                    contentDescription = "Localized description",
-                    modifier = modifier.size(150.dp)
-                )
-                Icon( imageVector = icon, contentDescription = "Monitorada?",
-                    modifier = Modifier.size(32.dp).clickable {
-                        viewModel.update(city = city!!.copy(isMonitored = !city.isMonitored))
-                    }
-                )
+//                    Icon( imageVector = Icons.Filled.AccountBox,
+//                    contentDescription = "Localized description",
+//                    modifier = modifier.size(150.dp)
+//                )
+//                Icon( imageVector = icon, contentDescription = "Monitorada?",
+//                    modifier = Modifier.size(32.dp).clickable {
+//                        viewModel.update(city = city!!.copy(isMonitored = !city.isMonitored))
+//                    }
+//                )
                 Column {
                     Spacer(modifier = modifier.size(12.dp))
-                    Text( text = viewModel.city ?: "Selecione uma cidade...",
-                        fontSize = 28.sp )
+                    Text(
+                        text = viewModel.city ?: "Selecione uma cidade...",
+                        fontSize = 28.sp
+                    )
                     viewModel.city?.let { name ->
                         val weather = viewModel.weather(name)
                         Spacer(modifier = modifier.size(12.dp))
-                        Text( text = weather.desc ?: "...",
-                            fontSize = 22.sp )
+                        Text(
+                            text = weather.desc ?: "...",
+                            fontSize = 22.sp
+                        )
                         Spacer(modifier = modifier.size(12.dp))
-                        Text( text = "Temp: " + weather.temp + "℃",
-                            fontSize = 22.sp )
+                        Text(
+                            text = "Temp: " + weather.temp + "℃",
+                            fontSize = 22.sp
+                        )
                     }
                 }
             }

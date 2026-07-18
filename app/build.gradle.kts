@@ -68,6 +68,7 @@ dependencies {
     implementation ("com.squareup.retrofit2:converter-gson:3.0.0")
 
     implementation("io.coil-kt:coil-compose:2.7.0") // coil
+    implementation("androidx.work:work-runtime:2.9.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
